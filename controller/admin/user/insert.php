@@ -1,0 +1,53 @@
+<?php
+require_once '../../database/connect.php';
+require_once '../../function/image_processing.php';
+
+
+date_default_timezone_set('Asia/Ho_Chi_Minh');
+
+$sql = 'INSERT INTO user
+        (id,email,password,level,status,full_name,gender,image,phone,address,created_at)
+        VALUES
+        (:id,:email,:password,:level,:status,:full_name,:gender,:image,:phone,:address,:created_at)';
+
+$id = uniqid();
+$email = trim($_POST['email']);
+$status = trim($_POST['status']);
+$password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+$password_confirmation = trim($_POST['password_confirmation']);
+
+$level = trim($_POST['level']);
+$full_name = trim($_POST['full_name']);
+
+if (!empty($_FILES['image']['name'])) {
+        $image = generateFileName($_FILES['image']['name']);
+        copy($_FILES['image']['tmp_name'], '../../uploads/avatar/' . $image);
+} 
+
+$gender = trim($_POST['gender']);
+$address = trim($_POST['address']);
+$phone = trim($_POST['phone']);
+$created_at = date('Y-m-d H:i:s');
+
+try {
+
+        $statement = $conn->prepare($sql);
+
+        $statement->bindParam(':id', $id);
+        $statement->bindParam(':email', $email);
+        $statement->bindParam(':password', $password);
+        $statement->bindParam(':level', $level);
+        $statement->bindParam(':status', $status);
+        $statement->bindParam(':full_name', $full_name);
+        $statement->bindParam(':gender', $gender);
+        $statement->bindParam(':image', $image);
+        $statement->bindParam(':phone', $phone);
+        $statement->bindParam(':address', $address);
+        $statement->bindParam(':created_at', $created_at);
+
+        $statement->execute();
+} catch (Exception $ex) {
+        echo 'message: ' . $ex->getMessage() . '<br/>';
+        echo 'file: ' . $ex->getFile() . '<br/>';
+        echo 'line: ' . $ex->getLine() . '<br/>';
+}

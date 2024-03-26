@@ -12,9 +12,9 @@ try {
 
     $statement->execute();
 
+    $_SESSION['success'] = true;
     header('location: ../../../asset/admin/master.php?page=index&modules=category');
 } catch (Exception $ex) {
-    echo 'message: ' . $ex->getMessage() . '<br/>';
-    echo 'file: ' . $ex->getFile() . '<br/>';
-    echo 'line: ' . $ex->getLine() . '<br/>';
+    $_SESSION['error'] = true;
+    header('location: ../../../asset/admin/master.php?page=index&modules=category');
 }

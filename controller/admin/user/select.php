@@ -4,6 +4,7 @@ require_once '../../database/connect.php';
 
 $sql = 'SELECT * FROM user WHERE status <> 3';
 
+
 try {
     $statement = $conn->prepare($sql);
 

@@ -6,10 +6,21 @@ if (isset($_POST['buttonSearch'])) {
     $users = searchByKeyWord($users, $keyword);
 }
 if (isset($_POST['page_no'])) {
-    echo $_POST['page_no'];
+    $records_per_page = 2; 
+    $page_no = $_POST['page_no'];
+    $offset = ($page_no - 1) * $records_per_page; 
+    $sql = 'SELECT * FROM user WHERE status <> 3 LIMIT :offset, :records_per_page';
+    $statement = $conn->prepare($sql);
+    $statement->bindValue(':offset', $offset, PDO::PARAM_INT);
+    $statement->bindValue(':records_per_page', $records_per_page, PDO::PARAM_INT);
+    $statement->execute();
+
+    $users = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+    echo json_encode($users);
+    exit;
 }
 ?>
-
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
@@ -19,7 +30,7 @@ if (isset($_POST['page_no'])) {
             <div class="col-md-6 offset-md-2">
                 <form action="http://localhost/project_perdo_1/asset/admin/master.php?page=index&modules=user" method="post">
                     <div class="input-group">
-                        <input type="search" class="form-control form-control-lg" placeholder="full name your keywords here" name="keyword" value="<?= isset($_POST['keyword']) ? $_POST['keyword'] : '' ?>">
+                        <input type="search" class="form-control form-control-lg" placeholder="full name your keywords here" name="keyword" value="<?= isset($_POST['keyword']) ? $_POST['keyword'] : '' ?>" autocomplete="off">
                         <div class="input-group-append">
                             <button type="submit" class="btn btn-lg btn-default" name="buttonSearch" value="search">
                                 <i class="fa fa-search"></i>
@@ -101,7 +112,7 @@ if (isset($_POST['page_no'])) {
             <div class="dataTables_paginate paging_simple_numbers">
                 <ul class="pagination justify-content-end example1_paginate">
                     <li class="paginate_button page-item previous" id="example1_previous"><a href="#" aria-controls="example1" id="0" tabindex="0" class="page-link">Previous</a></li>
-                    <li class="paginate_button page-item active"><a href="#" aria-controls="example1" id="1" tabindex="0" class="page-link">1</a></li>
+                    <li class="paginate_button page-item active"><a href="" aria-controls="example1" id="1" tabindex="0" class="page-link">1</a></li>
                     <li class="paginate_button page-item "><a href="#" aria-controls="example1" id="2" tabindex="0" class="page-link">2</a></li>
                     <li class="paginate_button page-item "><a href="#" aria-controls="example1" id="3" tabindex="0" class="page-link">3</a></li>
                     <li class="paginate_button page-item "><a href="#" aria-controls="example1" id="4" tabindex="0" class="page-link">4</a></li>

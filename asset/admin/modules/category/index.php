@@ -2,6 +2,20 @@
 require_once '../../controller/admin/category/select.php';
 ?>
 
+<?php if (isset($_SESSION['error'])) { ?>
+    <div class="alert alert-danger alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <h5><i class="icon fas fa-check"></i> Alert!</h5>
+        <span>Error occurred!</span>
+    </div>
+<?php } elseif (isset($_SESSION['success'])) { ?>
+    <div class="alert alert-success alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <h5><i class="icon fas fa-check"></i> Success!</h5>
+        <span>Category deleted successfully.</span>
+    </div>
+<?php } ?>
+
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">

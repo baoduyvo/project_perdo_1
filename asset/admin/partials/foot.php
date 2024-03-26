@@ -5,6 +5,8 @@
 <!-- AdminLTE App -->
 <script src="../../dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         var deleteLinks = document.querySelectorAll('.delete-link');
@@ -65,21 +67,43 @@
     function showData(page) {
         $.ajax({
             type: "post",
-            url: "http://localhost/project_perdo_1/asset/admin/master.php?page=index&modules=user",
+            url: "./master.php?page=index&modules=user",
             data: {
                 page_no: page
             },
             success: function(response) {
-                // Handle your response data here
+                console.log(response);
             },
             error: function(xhr, status, error) {
-                // Handle errors here
             }
         });
     }
 
-    $(document).on('click', '.example1_paginate a', function() {
-        var page = $(this).attr('id');
-        showData(page);
+    function updateTable(data) {
+        $('#example1 tbody').empty();
+        const arr = Array.from(data);
+        data.forEach(function(user, index) {
+            var row = `<tr>
+                            <td>${index + 1}</td>
+                            <td>${user['email']}</td>
+                            <td>${user['full_name']}</td>
+                            <td>${user['level'] == 1 ? 'Admin' : 'Member'}</td>
+                            <td>${user['gender'] == 1 ? 'Male' : 'Female'}</td>
+                            <td>${user['phone']}</td>
+                            <td>${user['status'] == 1 ? '<span class="badge badge-success">&nbsp;&nbsp;On&nbsp;&nbsp;</span>' : '<span class="badge badge-danger">&nbsp;&nbsp;Off&nbsp;&nbsp;</span>'}</td>
+                            <td><a class="btn btn-info btn-sm" href="http://localhost/project_perdo_1/asset/admin/master.php?page=edit&modules=user&key=${index}&id=${user['id']}"><i class="fas fa-pencil-alt"></i> Edit</a></td>
+                            <td><a class="btn btn-danger btn-sm delete-link" href="../../controller/admin/user/delete.php?id=${user['id']}"><i class="fas fa-trash"></i> Delete</a></td>
+                        </tr>`;
+            $('#example1 tbody').append(row);
+        });
+    }
+
+    $(document).on('click', '.example1_paginate a', function(e) {
+        e.preventDefault(); // Ngăn chặn hành động mặc định của liên kết
+        var page = $(this).text(); // Lấy số trang từ nội dung của liên kết
+        showData(page); // Hiển thị dữ liệu cho trang được chọn
     });
+
+    // Hiển thị dữ liệu trang đầu tiên khi trang được tải
+    showData(1);
 </script>

@@ -1,3 +1,11 @@
+<?php
+if (isset($_GET['logout'])) {
+    unset($_SESSION['member_email']);
+    header("Location: ./master.php");
+    exit();
+}
+?>
+
 <header>
     <div class="header">
         <div class="container">
@@ -14,20 +22,32 @@
                         <div class="limit-box">
                             <nav class="main-menu">
                                 <ul class="menu-area-main">
-                                    <li class="active"> <a href="index.html">Home</a> </li>
+                                    <li class="active"> <a href="http://localhost/project_perdo_1/asset/client/master.php?pages=home">Home</a> </li>
                                     <li> <a href="about.html">About</a> </li>
                                     <li> <a href="product.html">product</a> </li>
                                     <li> <a href="blog.html"> Blog</a> </li>
-                                    <li> <a href="contact.html">Contact</a> </li>
+                                    <li> <a href="http://localhost/project_perdo_1/asset/client/master.php?pages=contact">Contact</a> </li>
                                 </ul>
                             </nav>
                         </div>
                     </div>
                 </div>
                 <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2">
-                    <li><a class="buy" href="./pages/login/login.php">Login</a></li>
-
+                    <?php if (!isset($_SESSION['member_email'])) { ?>
+                        <li>
+                            <a class="buy" href="./pages/login.php">Login</a>
+                        </li>
+                    <?php } else { ?>
+                        <li>
+                            <div class="image">
+                                <span><?= $_SESSION['member_name']; ?></span>
+                                <span><a href="?logout=1">logout</a></span>
+                            </div>
+                        </li>
+                    <?php } ?>
                 </div>
+
+
             </div>
         </div>
 </header>

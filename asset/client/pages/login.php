@@ -4,9 +4,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./login.css">
+    <link rel="stylesheet" href="../../../dist/css/login.css">
     <title>Login</title>
 </head>
+
+
+<?php
+session_start();
+if (isset($_POST['buttonSignIn'])) {
+    require_once '../../../controller/client/login.php';
+
+    $email = trim($_POST['email']);
+    $password = trim($_POST['password']);
+
+    foreach ($users as $user) {
+        if ($email == $user['email'] && password_verify($password, $user['password']) == $user['password'] && $user['level'] == 2) {
+            $_SESSION['member_id'] = $user['id'];
+            $_SESSION['member_email'] = $user['email'];
+            $_SESSION['member_name'] = $user['full_name'];
+            header('location: ../master.php');
+            break;
+        }
+    }
+}
+?>
 
 <body>
     <h2></h2>
@@ -27,7 +48,7 @@
             </form>
         </div>
         <div class="form-container sign-in-container">
-            <form action="#">
+            <form action="./login.php" method="post">
                 <h1>Sign in</h1>
                 <div class="social-container">
                     <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
@@ -35,10 +56,10 @@
                     <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
                 </div>
                 <span>or use your account</span>
-                <input type="email" placeholder="Email" />
-                <input type="password" placeholder="Password" />
+                <input type="email" placeholder="Email" name="email" />
+                <input type="password" placeholder="Password" name="password" />
                 <a href="#">Forgot your password?</a>
-                <button>Sign In</button>
+                <button type="submit" name="buttonSignIn" value="signIn">Sign In</button>
             </form>
         </div>
         <div class="overlay-container">
@@ -57,7 +78,7 @@
         </div>
     </div>
 
-    <script src="./login.js"></script>
+    <script src="../../../dist/js/login.js"></script>
 
 </body>
 

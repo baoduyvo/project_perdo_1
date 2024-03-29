@@ -1,5 +1,11 @@
 <?php
 require_once '../../controller/admin/product/select.php';
+require_once '../../function/search_keyword.php';
+if (isset($_POST['buttonSearch'])) {
+    $keyword = isset($_POST['keyword']) ? trim($_POST['keyword']) : '';
+    $search = 'name';
+    $products = searchByKeyWord($products, $keyword, $search);
+}
 ?>
 
 <section class="content-header">
@@ -8,19 +14,17 @@ require_once '../../controller/admin/product/select.php';
             <div class="col-sm-4">
                 <h1>Product List</h1>
             </div>
-            <div class="col-sm-8">
-                <ol class="breadcrumb float-sm-right">
-                    <div class="form-inline">
-                        <div class="input-group" data-widget="sidebar-search">
-                            <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
-                            <div class="input-group-append">
-                                <button class="btn btn-sidebar">
-                                    <i class="fas fa-search fa-fw"></i>
-                                </button>
-                            </div>
+            <div class="col-md-6 offset-md-2">
+                <form action="http://localhost/project_perdo_1/asset/admin/master.php?page=index&modules=product" method="post">
+                    <div class="input-group">
+                        <input type="search" class="form-control form-control-lg" placeholder="your keywords here" name="keyword" value="<?= isset($_POST['keyword']) ? $_POST['keyword'] : '' ?>" autocomplete="off">
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-lg btn-default" name="buttonSearch" value="search">
+                                <i class="fa fa-search"></i>
+                            </button>
                         </div>
                     </div>
-                </ol>
+                </form>
             </div>
         </div>
     </div>

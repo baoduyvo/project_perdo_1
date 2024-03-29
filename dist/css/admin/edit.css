@@ -1,0 +1,44 @@
+@import url(https://fonts.googleapis.com/css?family=Oswald:400);
+
+.navigation {
+  margin-top: 20px;
+  width: 100%;
+  background-color: black;
+}
+.button {
+  display: flex;
+  padding: 10px;
+}
+.navigation > .button > img {
+  width: 30px;
+  height: 25px;
+  border-radius: 50px;
+  float: left;
+}
+.navigation > .button {
+  text-decoration: none;
+  float: right;
+  color: white;
+  width: 50px;
+  background-color: black;
+  transition: width 0.35s;
+  -webkit-transition: width 0.35s;
+  overflow: hidden;
+}
+.navigation > .button > .logout {
+  position: relative;
+  right: -18px;
+  overflow: hidden;
+  letter-spacing: 3px;
+  opacity: 0;
+  transition: opacity 0.45s;
+  -webkit-transition: opacity 0.35s;
+}
+.navigation > a:hover {
+  width: 150px;
+}
+
+.navigation > a:hover .logout {
+  opacity: 1;
+  color: #ffc221;
+}

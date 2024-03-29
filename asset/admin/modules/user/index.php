@@ -3,12 +3,13 @@ require_once '../../controller/admin/user/select.php';
 require_once '../../function/search_keyword.php';
 if (isset($_POST['buttonSearch'])) {
     $keyword = isset($_POST['keyword']) ? trim($_POST['keyword']) : '';
-    $users = searchByKeyWord($users, $keyword);
+    $search = 'full_name';
+    $users = searchByKeyWord($users, $keyword, $search);
 }
 if (isset($_POST['page_no'])) {
-    $records_per_page = 2; 
+    $records_per_page = 2;
     $page_no = $_POST['page_no'];
-    $offset = ($page_no - 1) * $records_per_page; 
+    $offset = ($page_no - 1) * $records_per_page;
     $sql = 'SELECT * FROM user WHERE status <> 3 LIMIT :offset, :records_per_page';
     $statement = $conn->prepare($sql);
     $statement->bindValue(':offset', $offset, PDO::PARAM_INT);

@@ -23,9 +23,8 @@ if (isset($_GET['logout'])) {
                             <nav class="main-menu">
                                 <ul class="menu-area-main">
                                     <li class="active"> <a href="http://localhost/project_perdo_1/asset/client/master.php?pages=home">Home</a> </li>
-                                    <li> <a href="about.html">About</a> </li>
-                                    <li> <a href="product.html">product</a> </li>
-                                    <li> <a href="blog.html"> Blog</a> </li>
+                                    <li> <a href="http://localhost/project_perdo_1/asset/client/master.php?pages=product">Product</a> </li>
+                                    <li> <a href="http://localhost/project_perdo_1/asset/client/master.php?pages=cart">Cart</a> </li>
                                     <li> <a href="http://localhost/project_perdo_1/asset/client/master.php?pages=contact">Contact</a> </li>
                                 </ul>
                             </nav>
@@ -38,12 +37,12 @@ if (isset($_GET['logout'])) {
                             <a class="buy" href="./pages/login.php">Login</a>
                         </li>
                     <?php } else { ?>
-                        <li>
-                            <div class="image">
-                                <span><?= $_SESSION['member_name']; ?></span>
-                                <span><a href="?logout=1">logout</a></span>
-                            </div>
-                        </li>
+                        <div class="navigation">
+                            <a class="button" href="?logout=1">
+                                <img src="https://pbs.twimg.com/profile_images/378800000639740507/fc0aaad744734cd1dbc8aeb3d51f8729_400x400.jpeg">
+                                <div class="logout">LOGOUT</div>
+                            </a>
+                        </div>
                     <?php } ?>
                 </div>
 

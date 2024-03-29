@@ -1,10 +1,10 @@
 <?php
-function searchByKeyWord($users, $keyword)
+function searchByKeyWord($arrays, $keyword, $search)
 {
     $result = [];
-    foreach ($users as $user) {
-        if (str_contains(strtolower($user['full_name']), strtolower($keyword))) {
-            array_push($result, $user);
+    foreach ($arrays as $array) {
+        if (str_contains(strtolower($array[$search]), strtolower($keyword))) {
+            array_push($result, $array);
         }
     }
     return $result;

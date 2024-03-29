@@ -13,6 +13,10 @@
   <link rel="stylesheet" href="../../dist/client/css/bootstrap.min.css">
   <!-- style css -->
   <link rel="stylesheet" href="../../dist/client/css/style.css">
+  <link rel="stylesheet" href="../../dist/css/admin/edit.css">
+  <link rel="stylesheet" href="../../dist/css/admin/product_detail.css">
+
+
   <!-- Responsive-->
   <link rel="stylesheet" href="../../dist/client/css/responsive.css">
   <!-- fevicon -->
@@ -26,4 +30,4 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
 
-  <link rel="stylesheet" href="../../dist/client/css/edit.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.5.0/css/all.min.css" integrity="sha512-QfDd74mlg8afgSqm3Vq2Q65e9b3xMhJB4GZ9OcHDVy1hZ6pqBJPWWnMsKDXM7NINoKqJANNGBuVRIpIJ5dogfA==" crossorigin="anonymous" referrerpolicy="no-referrer" />

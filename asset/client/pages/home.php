@@ -10,7 +10,9 @@ require_once '../../controller/client/list_product.php';
                 <?php foreach ($products as $product) { ?>
                     <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
                         <div class="product-box">
-                            <a href="http://localhost/project_perdo_1/asset/client/master.php?pages=product_detail"><img src="../../uploads/product/<?= $product['image'] ?>" style="height: 200px;" /></a>
+                            <a href="http://localhost/project_perdo_1/asset/client/master.php?pages=product_detail&id=<?= $product['id'] ?>">
+                                <img src="../../uploads/product/<?= $product['image'] ?>" style="height: 200px;" />
+                            </a>
                             <h3><?= $product['name'] ?></h3>
                             <span><?= number_format($product['price'], 0, '', '.') ?> VND</span>
                         </div>

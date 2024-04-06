@@ -1,16 +1,27 @@
+<?php
+
+$id = $_GET['id'];
+
+require_once '../../controller/client/product_detail.php';
+
+
+?>
+
 <div class="container">
     <div class="product-list">
         <div class="containerr">
             <div class="images">
-                <img src="http://mistillas.cl/wp-content/uploads/2018/04/Nike-Epic-React-Flyknit-%E2%80%9CPearl-Pink%E2%80%9D-01.jpg" />
+                <img src="../../uploads/product/<?= $product_detail[0]['image']; ?>" style="height: 550px;" />
             </div>
             <div class="product">
-                <p>Women's Running Shoe</p>
-                <h1>Nike Epic React Flyknit</h1>
-                <h2>$150</h2>
-                <p class="desc">The Nike Epic React Flyknit foam cushioning is responsive yet light-weight, durable yet soft. This creates a sensation that not only enhances the feeling of moving forward, but makes running feel fun, too.</p>
+                <p><?= print_r($product_detail[0]['category_name']) ?></p>
+                <h1><?= print_r($product_detail[0]['name']); ?></h1>
+                <h2><?= number_format($product_detail[0]['price'], 0, '', '.') ?> VND</h2>
+                <p class="desc">
+                    <?= print_r($product_detail[0]['description']); ?>
+                </p>
                 <div class="buttons">
-                    <button class="add"><a href="">Add to Cart</a></button>
+                    <button class="add"><a href="http://localhost/project_perdo_1/asset/client/master.php?pages=cart&id=<?= $id ?>">Add to Cart</a></button>
                     <button class="like"><span>♥</span></button>
                 </div>
             </div>

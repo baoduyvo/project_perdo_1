@@ -19,6 +19,7 @@ $sql = 'UPDATE product SET
         WHERE id = :product_id';
 
 $product_id = $_GET['product_id'];
+
 $name = trim($_POST['name']);
 $price = trim($_POST['price']);
 $description = trim($_POST['description']);

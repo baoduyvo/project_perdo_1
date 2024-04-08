@@ -5,6 +5,7 @@ $sql = 'CREATE TABLE `CART` (
     id INT NOT NULL AUTO_INCREMENT,
     full_name NVARCHAR(50),
     email NVARCHAR(50),
+    phone VARCHAR(20),
     address NVARCHAR(250),
     cart_total INT,
     created_at DATE,

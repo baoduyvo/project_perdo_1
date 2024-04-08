@@ -22,6 +22,7 @@ if (isset($_POST['buttonSignIn'])) {
             $_SESSION['member_id'] = $user['id'];
             $_SESSION['member_email'] = $user['email'];
             $_SESSION['member_name'] = $user['full_name'];
+
             header('location: ../master.php');
             break;
         }

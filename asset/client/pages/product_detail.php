@@ -4,7 +4,6 @@ $id = $_GET['id'];
 
 require_once '../../controller/client/product_detail.php';
 
-
 ?>
 
 <div class="container">

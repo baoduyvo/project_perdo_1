@@ -5,7 +5,11 @@ for ($i = 0; $i < count($_SESSION['cart_detail']); $i++) {
     $total += ($_SESSION['cart_detail'][$i]['quantity'] * $_SESSION['cart_detail'][$i]['price']);
     // require_once '../../controller/client/cart_detail.php';
 }
-
+if (isset($_POST['credit'])) {
+    require_once '../../controller/client/cart.php';
+    unset($_SESSION['cart_detail']);
+    echo '<script> window.location.href="./master.php?page=home"</script>';
+}
 ?>
 
 <div class="row mb-4 mt-4">
@@ -50,17 +54,17 @@ for ($i = 0; $i < count($_SESSION['cart_detail']); $i++) {
 
                 <!-- credit card info-->
                 <div id="nav-tab-card" class="tab-pane fade show active">
-                    <form role="form" method="post" action="../../controller/client/cart.php">
+                    <form role="form" method="post" action="http://localhost/project_perdo_1/asset/client/master.php?pages=credit">
                         <div class="form-group">
                             <label for="username">Email (on the card)</label>
-                            <input type="text" name="email" value="<?= $_SESSION['member_email'] ?>" class="form-control" disabled>
+                            <input type="text" name="email" value="<?= $_SESSION['member_email'] ?>" class="form-control" readonly>
                         </div>
                         <div class="form-group">
                             <label for="full_name">Full name (on the card)</label>
-                            <input type="text" name="full_name" value="<?= $_SESSION['member_name'] ?>" class="form-control" disabled>
+                            <input type="text" name="full_name" value="<?= $_SESSION['member_name'] ?>" class="form-control" readonly>
                         </div>
                         <div class="form-group">
-                            <label for="username">Phone</label>
+                            <label for="phone">Phone</label>
                             <input type="text" name="phone" class="form-control">
                         </div>
                         <div class="form-group">
@@ -81,8 +85,8 @@ for ($i = 0; $i < count($_SESSION['cart_detail']); $i++) {
                                 <div class="form-group">
                                     <label><span class="hidden-xs">Expiration</span></label>
                                     <div class="input-group">
-                                        <input type="number" name="" class="form-control" value="<?= date("m") ?>" disabled>
-                                        <input type="number" name="" class="form-control" value="<?= date("Y") ?>" disabled>
+                                        <input type="number" name="" class="form-control" value="<?= date("m") ?>" readonly>
+                                        <input type="number" name="" class="form-control" value="<?= date("Y") ?>" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -91,12 +95,11 @@ for ($i = 0; $i < count($_SESSION['cart_detail']); $i++) {
                                     <label data-toggle="tooltip" title="Three-digits code on the back of your card">Cart Total
                                         <i class="fa fa-question-circle"></i>
                                     </label>
-                                    <input type="text" value="<?= number_format($total, 0, '', '.') ?> VND" class="form-control" disabled>
+                                    <input type="text" name="cart_total" value="<?= number_format($total, 0, '', '.') ?> VND" class="form-control" readonly>
                                 </div>
                             </div>
                         </div>
-                        <button type="submit" class="subscribe btn btn-warning btn-block rounded-pill shadow-sm py-3"> Confirm </button>
-
+                        <button type="submit" class="subscribe btn btn-warning btn-block rounded-pill shadow-sm py-3" name="credit" value="buttonCredit"> Confirm </button>
                     </form>
                 </div>
                 <!-- End -->

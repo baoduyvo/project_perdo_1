@@ -1,7 +1,7 @@
 <?php
 require_once 'connect.php';
 
-$sql = 'CREATE TABLE `CART` (
+$sql = 'CREATE TABLE `Bill` (
     id INT NOT NULL AUTO_INCREMENT,
     full_name NVARCHAR(50),
     email NVARCHAR(50),

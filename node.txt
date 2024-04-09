@@ -1,0 +1,16 @@
+/**
+ * cart detail: id, productName, price, quantity, userID, created_at
+ * 
+ * lấy ID cua user id = DangNHap
+ * lay productid = param
+ * 
+ * SQL SELECT product : id, name, price
+ * 
+ * SQL INSẺT cart: id, productName, price, quantity, userID, created_at
+ * 
+ * UpdateQuantity: action == 
+ * SQL update cart_detail quanity  where  id cart = data ajax
+ * 
+ * 
+ */
+//SQL SELECT id , productid, productname, productprice, quantity FROM cart_Detail WHERE statú s =1 userid = DANGNHAP

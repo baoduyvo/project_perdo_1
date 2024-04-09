@@ -8,7 +8,6 @@
  <!-- sidebar -->
  <script src="../../dist/client/js/jquery.mCustomScrollbar.concat.min.js"></script>
  <script src="../../dist/client/js/custom.js"></script>
- <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
  <script>
      $(document).ready(function() {
          $(".fancybox").fancybox({

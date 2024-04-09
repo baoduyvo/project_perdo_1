@@ -10,20 +10,35 @@ require_once '../../controller/client/product_detail.php';
     <div class="product-list">
         <div class="containerr">
             <div class="images">
-                <img src="../../uploads/product/<?= $product_detail[0]['image']; ?>" style="height: 550px;" />
+                <img src="../../uploads/product/<?= $product_detail[0]['image'] ?>" style="height: 550px;" />
             </div>
-            <div class="product">
-                <p><?= print_r($product_detail[0]['category_name']) ?></p>
-                <h1><?= print_r($product_detail[0]['name']); ?></h1>
+            <form class="product" method="post" action="../../controller/client/cart_detail.php?product_id=<?= $id ?>">
+                <p><?= $product_detail[0]['category_name'] ?></p>
+                <h1><?= $product_detail[0]['name'] ?></h1>
                 <h2><?= number_format($product_detail[0]['price'], 0, '', '.') ?> VND</h2>
                 <p class="desc">
-                    <?= print_r($product_detail[0]['description']); ?>
+                    <?= $product_detail[0]['description']; ?>
                 </p>
+                <div class="col-md-6 col-lg-6 col-xl-4 d-flex justify-content-md-around align-items-center">
+                    <button type="button" class="btn btn-link px-2" onclick="minus()">
+                        <i class="fas fa-minus"></i>
+                    </button>
+
+                    <input min="1" name="quantity" value="1" type="text" class="form-control form-control-sm m-lg-2 p-lg-2 align-item-center text-center" style="width: 46px;" />
+
+                    <button type="button" class="btn btn-link px-2" onclick="plus()">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+                <input type="hidden" name="product_name" value="<?= $product_detail[0]['name'] ?>">
+                <input type="hidden" name="price" value="<?= $product_detail[0]['price'] ?>">
+                <input type="hidden" name="image" value="<?= $product_detail[0]['image'] ?>">
+
                 <div class="buttons">
-                    <button class="add"><a href="http://localhost/project_perdo_1/asset/client/master.php?pages=cart&id=<?= $id ?>">Add to Cart</a></button>
+                    <button type="submit" class="add">Add to Cart</button>
                     <button class="like"><span>♥</span></button>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 </div>
@@ -54,4 +69,22 @@ require_once '../../controller/client/product_detail.php';
             </div>
         </div>
     </div>
+
 </div>
+
+<script>
+    function plus() {
+        var quantityInput = document.querySelector('input[name="quantity"]');
+        var currentValue = parseInt(quantityInput.value);
+        quantityInput.value = currentValue + 1;
+        console.log(quantityInput.value);
+    }
+
+    function minus() {
+        var quantityInput = document.querySelector('input[name="quantity"]');
+        var currentValue = parseInt(quantityInput.value);
+        if (currentValue > 1) {
+            quantityInput.value = currentValue - 1;
+        }
+    }
+</script>

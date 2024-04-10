@@ -6,24 +6,42 @@ $itemId = isset($_POST['itemId']) ? $_POST['itemId'] : '';
 $quantity = isset($_POST['quantity']) ? $_POST['quantity'] : '';
 
 if ($action == 'decrease') {
-    $sql = 'UPDATE cart_detail
-            SET quantity = :quantity - 1
-            WHERE id = :id';
+    if ($quantity == 1) {
+        $sqlDel = 'DELETE FROM cart_detail WHERE id=:id';
+        try {
+            $statement = $conn->prepare($sqlDel);
 
-    try {
-        $statement = $conn->prepare($sql);
+            $statement->bindValue(':id', $itemId);
 
-        $statement->bindValue(':quantity', $quantity);
-        $statement->bindValue(':id', $itemId);
+            $statement->execute();
 
-        $statement->execute();
+            $cart_detail = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-        $cart_detail = $statement->fetchAll(PDO::FETCH_ASSOC);
+            echo json_decode(json_encode($cart_detail), true);
+        } catch (Exception $ex) {
+            echo 'message: ' . $ex->getMessage() . '<br/>';
+            echo 'file: ' . $ex->getFile() . '<br/>';
+            echo 'line: ' . $ex->getLine() . '<br/>';
+        }
+    } else {
+        $sql = 'UPDATE cart_detail
+        SET quantity = :quantity - 1
+        WHERE id = :id';
+        try {
+            $statement = $conn->prepare($sql);
 
-        echo json_decode(json_encode($cart_detail), true);
-    } catch (Exception $ex) {
-        echo 'message: ' . $ex->getMessage() . '<br/>';
-        echo 'file: ' . $ex->getFile() . '<br/>';
-        echo 'line: ' . $ex->getLine() . '<br/>';
+            $statement->bindValue(':quantity', $quantity);
+            $statement->bindValue(':id', $itemId);
+
+            $statement->execute();
+
+            $cart_detail = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+            echo json_decode(json_encode($cart_detail), true);
+        } catch (Exception $ex) {
+            echo 'message: ' . $ex->getMessage() . '<br/>';
+            echo 'file: ' . $ex->getFile() . '<br/>';
+            echo 'line: ' . $ex->getLine() . '<br/>';
+        }
     }
 }

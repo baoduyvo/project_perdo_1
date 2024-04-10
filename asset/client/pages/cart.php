@@ -19,7 +19,7 @@ require_once '../../controller/client/show_cart_detail.php';
                 <div class="card rounded-3 mb-4">
                     <div class="card-body p-4">
                         <?php if (empty($cart_details)) { ?>
-                            <p>chua co san pham</p>
+                            <p>No Product</p>
                         <?php } ?>
 
                         <?php foreach ($cart_details as $key => $cart_detail) { ?>
@@ -31,17 +31,17 @@ require_once '../../controller/client/show_cart_detail.php';
                                 <div class="col-md-3 col-lg-3 col-xl-3">
                                     <p class="lead fw-normal mb-2"><?= $cart_detail['product_name'] ?></p>
                                 </div>
-                                <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+                                <form method="POST" action="../../controller/client/update_quantity.php?id=<?= $cart_detail['id'] ?>" class="col-md-3 col-lg-3 col-xl-2 d-flex">
                                     <button type="button" class="btn btn-link px-2" onclick="decreaseQuantity(<?= $cart_detail['id'] ?>,<?= $cart_detail['quantity'] ?>)">
                                         <i class="fas fa-minus"></i>
                                     </button>
 
-                                    <input id="form1" min="0" name="quantity" value="<?= $cart_detail['quantity'] ?>" type="text" class="form-control form-control-sm m-lg-2 p-lg-2" />
-
+                                    <input id="form1" min="0" require name="quantity" value="<?= $cart_detail['quantity'] ?>" type="text" class="form-control form-control-sm m-lg-2 p-lg-2" />
+                                    <input type="submit" value="" hidden>
                                     <button type="button" class="btn btn-link px-2" onclick="increaseQuantity(<?= $cart_detail['id'] ?>,<?= $cart_detail['quantity'] ?>)">
                                         <i class="fas fa-plus"></i>
                                     </button>
-                                </div>
+                                </form>
                                 <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
                                     <h5 class="mb-0"><?= number_format($cart_detail['quantity'] * $cart_detail['price'], 0, '', '.') ?> VND
                                     </h5>

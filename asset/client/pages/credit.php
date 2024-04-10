@@ -1,14 +1,47 @@
 <?php
-$total = 0;
+require_once '../../controller/client/show_cart_detail.php';
 
-for ($i = 0; $i < count($_SESSION['cart_detail']); $i++) {
-    $total += ($_SESSION['cart_detail'][$i]['quantity'] * $_SESSION['cart_detail'][$i]['price']);
-    // require_once '../../controller/client/cart_detail.php';
+$total = 0;
+foreach ($cart_details as $cart_detail) {
+    $total += ($cart_detail['quantity'] * $cart_detail['price']);
 }
+
+$addressError = $phoneErr = '';
+
 if (isset($_POST['credit'])) {
-    require_once '../../controller/client/cart.php';
-    unset($_SESSION['cart_detail']);
-    echo '<script> window.location.href="./master.php?page=home"</script>';
+    empty($_POST['address']) ? $addressError = '* Address is required' : $address = trim($_POST['address']);
+    if (empty($_POST['phone'])) {
+        $phoneErr = '* Phone is required';
+    } else {
+        $regex = '/^[0-9]{10}$/';
+        if (preg_match($regex, $_POST['phone'])) {
+            $phone = trim($_POST['phone']);
+        } else {
+            $phoneErr = "* Phone is munbers";
+        }
+    }
+    if (empty($addressError) && empty($phoneErr)) {
+        require_once '../../controller/client/bill.php';
+
+        $sql = 'UPDATE cart_detail SET status=:status WHERE user_id=:user_id';
+
+        try {
+            $statement = $conn->prepare($sql);
+
+            $statement->bindValue('status', 2);
+            $statement->bindValue('user_id', $_SESSION['member_id']);
+
+            $statement->execute();
+        } catch (Exception $ex) {
+            echo 'message: ' . $ex->getMessage() . '<br/>';
+            echo 'file: ' . $ex->getFile() . '<br/>';
+            echo 'line: ' . $ex->getLine() . '<br/>';
+            die();
+        }
+
+        echo '<script> window.location.href="./master.php?page=home"</script>';
+        exit();
+    }
 }
 ?>
 
@@ -65,12 +98,15 @@ if (isset($_POST['credit'])) {
                         </div>
                         <div class="form-group">
                             <label for="phone">Phone</label>
-                            <input type="text" name="phone" class="form-control">
+                            <label for="" class="error"><?= $phoneErr  ?></label>
+                            <input type="text" name="phone" class="form-control" value="<?= isset($_POST['phone']) ? $_POST['phone'] : '' ?>">
                         </div>
                         <div class="form-group">
                             <label for="cardNumber">Address</label>
+                            <label for="" class="error"><?= $addressError  ?></label>
+
                             <div class="input-group">
-                                <input type="text" name="address" placeholder="Your address" class="form-control">
+                                <input type="text" name="address" placeholder="Your address" class="form-control" value="<?= isset($_POST['address']) ? $_POST['address'] : '' ?>">
                                 <div class="input-group-append">
                                     <span class="input-group-text text-muted">
                                         <i class="fa fa-cc-visa mx-1"></i>
@@ -95,7 +131,8 @@ if (isset($_POST['credit'])) {
                                     <label data-toggle="tooltip" title="Three-digits code on the back of your card">Cart Total
                                         <i class="fa fa-question-circle"></i>
                                     </label>
-                                    <input type="text" name="cart_total" value="<?= number_format($total, 0, '', '.') ?> VND" class="form-control" readonly>
+                                    <input type="text" value="<?= number_format($total, 0, '', '.') ?> VND" class="form-control" readonly>
+                                    <input type="hidden" name="cart_total" value="<?= $total ?>">
                                 </div>
                             </div>
                         </div>

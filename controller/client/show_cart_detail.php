@@ -3,7 +3,8 @@ require_once '../../database/connect.php';
 
 $sql = 'SELECT *
         FROM cart_detail
-        WHERE user_id=:user_id';
+        WHERE user_id=:user_id
+        AND status <> 2';
 try {
     $statement = $conn->prepare($sql);
 

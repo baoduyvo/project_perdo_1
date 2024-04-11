@@ -23,22 +23,6 @@ if (isset($_POST['credit'])) {
     if (empty($addressError) && empty($phoneErr)) {
         require_once '../../controller/client/bill.php';
 
-        $sql = 'UPDATE cart_detail SET status=:status WHERE user_id=:user_id';
-
-        try {
-            $statement = $conn->prepare($sql);
-
-            $statement->bindValue('status', 2);
-            $statement->bindValue('user_id', $_SESSION['member_id']);
-
-            $statement->execute();
-        } catch (Exception $ex) {
-            echo 'message: ' . $ex->getMessage() . '<br/>';
-            echo 'file: ' . $ex->getFile() . '<br/>';
-            echo 'line: ' . $ex->getLine() . '<br/>';
-            die();
-        }
-
         echo '<script> window.location.href="./master.php?page=home"</script>';
         exit();
     }

@@ -4,7 +4,7 @@ require_once '../../database/connect.php';
 session_start();
 date_default_timezone_set('Asia/Ho_Chi_Minh');
 
-$sql = 'SELECT price, quantity FROM cart_detail WHERE product_id = :product_id';
+$sql = 'SELECT price, quantity, status FROM cart_detail WHERE product_id = :product_id';
 
 $product_id = $_GET['product_id'];
 
@@ -25,9 +25,8 @@ foreach ($cart_details as $cart_detail) {
     $totalQuantity += $cart_detail['quantity'];
     $totalPrice += $cart_detail['price'];
 }
-echo $totalPrice, $totalQuantity;
 
-if ($statement->rowCount() > 0) {
+if ($statement->rowCount() > 0 && $cart_details['status'] == 2) {
     $sql = 'UPDATE cart_detail SET 
             price = :price,
             quantity = :quantity

@@ -17,7 +17,6 @@
                             Dashboard
                         </p>
                     </a>
-
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
@@ -89,13 +88,21 @@
                     </ul>
                 </li>
                 <li class="nav-item">
+                    <a href="http://localhost/project_perdo_1/asset/admin/master.php?page=index&modules=cart" class="nav-link">
+                        <i class="fas fa-shopping-cart nav-icon"></i>
+                        <p>
+                            Cart
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="http://localhost/project_perdo_1/asset/auth/login.php?logout" class="nav-link">
                         <p>
                             <button type="button" class="btn btn-block btn-danger btn-lg" fdprocessedid="qzmzq6">Log Out</button>
                         </p>
                     </a>
-
                 </li>
+
         </nav>
     </div>
 </aside>

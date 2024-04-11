@@ -28,6 +28,7 @@
     <!-- foot -->
     <?php require_once './partials/foot.php'; ?>
 
+
 </body>
 
 </html>

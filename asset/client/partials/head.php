@@ -17,6 +17,8 @@
   <link rel="stylesheet" href="../../dist/css/admin/product_detail.css">
   <link rel="stylesheet" href="../../dist/css/admin/credit.css">
   <link rel="stylesheet" href="../../dist/css/admin/demo1.css">
+  <link rel="stylesheet" href="../../dist/css/admin/message.css">
+
 
   <!-- Responsive-->
   <link rel="stylesheet" href="../../dist/client/css/responsive.css">

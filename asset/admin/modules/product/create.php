@@ -51,13 +51,13 @@ if (isset($_POST['buttonCreate'])) {
                             <textarea class="form-control" id="content" name="content"><?= isset($_POST['content']) ? $_POST['content'] : '' ?></textarea>
                         </div>
 
-                        <div class="group-image-detail">
+                        <!-- <div class="group-image-detail">
                             <div class="row">
                                 <button type="button" class="btn btn-info w-100" id="add-image">
                                     <i class="fa fa-plus"></i>&nbsp;&nbsp;&nbsp;Add image detail
                                 </button>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
 
                     <div class="col-md-4">

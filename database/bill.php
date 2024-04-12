@@ -7,6 +7,7 @@ $sql = 'CREATE TABLE `Bill` (
     email NVARCHAR(50),
     phone VARCHAR(20),
     address NVARCHAR(250),
+    status TINYINT COMMENT "1:Accept - 2:Refuse - 3:Peding",
     cart_total INT,
     user_id VARCHAR(20),
     created_at DATE,

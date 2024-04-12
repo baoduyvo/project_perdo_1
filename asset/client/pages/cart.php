@@ -69,6 +69,7 @@ require_once '../../controller/client/show_cart_detail.php';
     </div>
 </section>
 
+
 <script>
     function decreaseQuantity(itemId, quantity) {
         $.ajax({

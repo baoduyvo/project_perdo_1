@@ -1,30 +1,5 @@
 <?php
 require_once '../../controller/admin/cart/select.php';
-
-$groupedCarts = [];
-
-foreach ($carts as $cart) {
-    $cartId = $cart['id'];
-    if (!isset($groupedCarts[$cartId])) {
-        $groupedCarts[$cartId] = [
-            'id' => $cart['id'],
-            'full_name' => $cart['full_name'],
-            'email' => $cart['email'],
-            'phone' => $cart['phone'],
-            'address' => $cart['address'],
-            'cart_total' => $cart['cart_total'],
-            'created_at' => $cart['created_at'],
-            'cart_details' => array()
-        ];
-    }
-    $groupedCarts[$cartId]['cart_details'][] = [
-        'product_name' => $cart['product_name'],
-        'price' => $cart['price'],
-        'quantity' => $cart['quantity'],
-        'image' => $cart['image']
-    ];
-}
-
 ?>
 
 <section class="content-header">
@@ -42,6 +17,20 @@ foreach ($carts as $cart) {
         <div class="row">
             <div class="col-md-12">
                 <div class="timeline">
+                    <?php if (empty($groupedCarts)) { ?>
+                        <div>
+                            <div class="timeline-item">
+                                <div class="timeline-body">
+                                    <div class="card-body p-1">
+                                        <div class="row d-flex justify-content-between align-items-center" data-productid="">
+                                            <span class="lead fw-normal mb-1" style="font-size: 1.4em;">&nbsp;&nbsp;&nbsp;No shopping cart yet </span>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php } ?>
                     <?php foreach ($groupedCarts as $cart) { ?>
                         <div>
                             <i class="fas fa-shopping-cart bg-blue"></i>
@@ -91,7 +80,9 @@ foreach ($carts as $cart) {
                                     </div>
                                 </div>
                                 <div class="timeline-footer">
-                                    <a class="btn btn-primary btn-sm">Accept</a>
+                                    <button class="btn btn-primary btn-sm" onclick="downloadCSV(<?= $cart['id'] ?>)">
+                                        Accept
+                                    </button>
                                     <a class="btn btn-danger btn-sm">Delete</a>
                                 </div>
                             </div>
@@ -105,3 +96,9 @@ foreach ($carts as $cart) {
         </div>
     </div>
 </section>
+
+<script>
+    function downloadCSV(id) {
+        window.location.href = 'http://localhost/project_perdo_1/controller/admin/cart/export.php?id=' + id;
+    }
+</script>

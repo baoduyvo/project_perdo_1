@@ -1,0 +1,17 @@
+.message {
+  font-size: 24px;
+  margin-left: 10px;
+}
+.notification {
+  display: none;
+  width: 300px;
+  position: fixed;
+  top: 470px;
+  right: 80px;
+  background-color: #ffc221;
+  border-radius: 10px;
+}
+.progress:hover {
+  display: block;
+  background-color: red;
+}

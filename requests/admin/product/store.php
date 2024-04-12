@@ -29,7 +29,7 @@ if (empty($_FILES['image']['name'])) {
 } else {
     $lastIndex = strpos($_FILES['image']['name'], '.');
     $ext = substr($_FILES['image']['name'], $lastIndex);
-    $mines = ['.jpg', '.png', '.jpeg', '.JPG'];
+    $mines = ['.jpg', '.png', '.jpeg', '.JPG','.webp'];
 
     $imageErr = '* Image Must jpg,png,jpeg,JPG';
 

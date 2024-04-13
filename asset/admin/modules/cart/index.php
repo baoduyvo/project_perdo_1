@@ -99,6 +99,6 @@ require_once '../../controller/admin/cart/select.php';
 
 <script>
     function downloadCSV(id) {
-        window.location.href = 'http://localhost/project_perdo_1/controller/admin/cart/export.php?id=' + id;
+        window.location.href = 'http://localhost/project_perdo_1/controller/admin/cart/export.php?cart_id=' + id;
     }
 </script>

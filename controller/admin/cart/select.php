@@ -2,10 +2,11 @@
 require_once '../../database/connect.php';
 
 $sql = 'SELECT  b.id,b.full_name,b.email,b.phone,b.address,b.cart_total,b.created_at,
-                cd.product_name,cd.price,cd.quantity,cd.image
+        cd.product_name,cd.price,cd.quantity,cd.image
         FROM bill_detail bd
         JOIN bill b ON bd.bill_id = b.id
         JOIN cart_detail cd ON bd.cart_detail_id = cd.id
+        WHERE b.status = 3
         ORDER BY b.id DESC';
 
 try {

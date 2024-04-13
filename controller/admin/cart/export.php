@@ -1,18 +1,20 @@
 <?php
 require_once '../../../database/connect.php';
+require_once '../../../vendor/autoload.php';
 
-$sql = 'SELECT  b.id,b.full_name,b.email,b.phone,b.address,b.cart_total,b.created_at,
-                cd.product_name,cd.price,cd.quantity,cd.image
-        FROM bill_detail bd
-        JOIN bill b ON bd.bill_id = b.id
-        JOIN cart_detail cd ON bd.cart_detail_id = cd.id
-        ORDER BY b.id DESC';
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 try {
+    $sql = 'SELECT  b.id, b.full_name, b.email, b.phone, b.address, b.cart_total, b.created_at,
+                    cd.product_name, cd.price, cd.quantity, cd.image
+            FROM bill_detail bd
+            JOIN bill b ON bd.bill_id = b.id
+            JOIN cart_detail cd ON bd.cart_detail_id = cd.id
+            ORDER BY b.id DESC';
+
     $statement = $conn->prepare($sql);
-
     $statement->execute();
-
     $carts = $statement->fetchAll(PDO::FETCH_ASSOC);
 
     $groupedCarts = [];
@@ -28,7 +30,7 @@ try {
                 'address' => $cart['address'],
                 'cart_total' => $cart['cart_total'],
                 'created_at' => $cart['created_at'],
-                'cart_details' => array()
+                'cart_details' => []
             ];
         }
         $groupedCarts[$cartId]['cart_details'][] = [
@@ -38,32 +40,72 @@ try {
             'image' => $cart['image']
         ];
     }
-} catch (Exception $ex) {
-    echo 'message: ' . $ex->getMessage() . '<br/>';
-    echo 'file: ' . $ex->getFile() . '<br/>';
-    echo 'line: ' . $ex->getLine() . '<br/>';
-}
 
-$delimiter = ",";
-$fileName = "Bill-data_" . date('d-m-Y') . ".csv";
+    $spreadsheet = new Spreadsheet();
+    $sheet = $spreadsheet->getActiveSheet();
 
-$output = fopen('php://output', 'w');
+    $sheet->setCellValue('A1', 'Id')
+        ->setCellValue('B1', 'Email')
+        ->setCellValue('C1', 'Full Name')
+        ->setCellValue('D1', 'Phone')
+        ->setCellValue('E1', 'Address')
+        ->setCellValue('F1', 'Product Name')
+        ->setCellValue('G1', 'Quantity')
+        ->setCellValue('H1', 'Price')
+        ->setCellValue('I1', 'Total Price')
+        ->setCellValue('J1', 'Cart Total');
 
-header('Content-Type: text/csv');
-header('Content-Disposition: attachment; filename="' . $fileName . '"');
+    $rowcount = 2;
 
-fputcsv($output, ['Id', 'Email', 'Full Name', 'Phone', 'Address', 'Product Name', 'Quantity', 'Price', 'Total', 'Cart Total'], $delimiter);
-
-foreach ($groupedCarts as $cart) {
-    foreach ($cart['cart_details'] as $detail) {
-        $limitData = [
-            $cart['id'], $cart['email'], $cart['full_name'], $cart['phone'], $cart['address'],
-            $detail['product_name'], $detail['quantity'], $detail['price'], $detail['price'] * $detail['quantity'], $cart['cart_total']
-        ];
-        fputcsv($output, array_values($limitData), $delimiter);
+    foreach ($groupedCarts as $cart) {
+        foreach ($cart['cart_details'] as $detail) {
+            $sheet->setCellValue('A' . $rowcount, $cart['id'])
+                ->setCellValue('B' . $rowcount, $cart['email'])
+                ->setCellValue('C' . $rowcount, $cart['full_name'])
+                ->setCellValue('D' . $rowcount, $cart['phone'])
+                ->setCellValue('E' . $rowcount, $cart['address'])
+                ->setCellValue('F' . $rowcount, $detail['product_name'])
+                ->setCellValue('G' . $rowcount, $detail['quantity'])
+                ->setCellValue('H' . $rowcount, $detail['price'])
+                ->setCellValue('I' . $rowcount, $detail['price'] * $detail['quantity'])
+                ->setCellValue('J' . $rowcount, $cart['cart_total']);
+            $rowcount++;
+        }
     }
-}
 
-fputcsv($output, ['<br>'], $delimiter);
-fclose($output);
-exit();
+    $writer = new Xlsx($spreadsheet);
+    $fileName = "bill-data_" . date('d-m-Y') . ".xlsx";
+
+    header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    header('Content-Disposition: attachment;filename="' . $fileName . '"');
+    header('Cache-Control: max-age=0');
+
+    $writer->save('php://output');
+
+    // setcookie('accept', '1', time() + 5, "../../../asset/client/master.php?pages=home");
+
+    $updateStatus = 'UPDATE bill SET 
+        status = :status
+        WHERE id = :id';
+
+    $id = $_GET['cart_id'];
+
+    try {
+        $statement = $conn->prepare($updateStatus);
+
+        $statement->bindValue(':status', 1);
+        $statement->bindParam(':id', $id);
+
+        $update = $statement->execute();
+
+        echo '<script> window.location.href="../../../asset/admin/master.php?page=index&modules=cart"</script>';
+    } catch (Exception $ex) {
+        echo 'message: ' . $ex->getMessage() . '<br/>';
+        echo 'file: ' . $ex->getFile() . '<br/>';
+        echo 'line: ' . $ex->getLine() . '<br/>';
+    }
+
+    exit();
+} catch (PDOException $ex) {
+    echo 'Error: ' . $ex->getMessage();
+}

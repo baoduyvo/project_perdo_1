@@ -5,15 +5,19 @@ require_once '../../../vendor/autoload.php';
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
+$id = $_GET['cart_id'];
+
 try {
     $sql = 'SELECT  b.id, b.full_name, b.email, b.phone, b.address, b.cart_total, b.created_at,
-                    cd.product_name, cd.price, cd.quantity, cd.image
+            cd.product_name, cd.price, cd.quantity, cd.image
             FROM bill_detail bd
             JOIN bill b ON bd.bill_id = b.id
             JOIN cart_detail cd ON bd.cart_detail_id = cd.id
+            WHERE b.id=:id
             ORDER BY b.id DESC';
 
     $statement = $conn->prepare($sql);
+    $statement->bindParam(':id', $id);
     $statement->execute();
     $carts = $statement->fetchAll(PDO::FETCH_ASSOC);
 

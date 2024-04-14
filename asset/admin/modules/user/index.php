@@ -6,21 +6,6 @@ if (isset($_POST['buttonSearch'])) {
     $search = 'full_name';
     $users = searchByKeyWord($users, $keyword, $search);
 }
-if (isset($_POST['page_no'])) {
-    $records_per_page = 2;
-    $page_no = $_POST['page_no'];
-    $offset = ($page_no - 1) * $records_per_page;
-    $sql = 'SELECT * FROM user WHERE status <> 3 LIMIT :offset, :records_per_page';
-    $statement = $conn->prepare($sql);
-    $statement->bindValue(':offset', $offset, PDO::PARAM_INT);
-    $statement->bindValue(':records_per_page', $records_per_page, PDO::PARAM_INT);
-    $statement->execute();
-
-    $users = $statement->fetchAll(PDO::FETCH_ASSOC);
-
-    echo json_encode($users);
-    exit;
-}
 ?>
 <section class="content-header">
     <div class="container-fluid">
@@ -108,20 +93,5 @@ if (isset($_POST['page_no'])) {
             </tfoot>
         </table>
     </div>
-    <div class="row">
-        <div class="px-4 col-md-7 text-right offset-md-5">
-            <div class="dataTables_paginate paging_simple_numbers">
-                <ul class="pagination justify-content-end example1_paginate">
-                    <li class="paginate_button page-item previous" id="example1_previous"><a href="#" aria-controls="example1" id="0" tabindex="0" class="page-link">Previous</a></li>
-                    <li class="paginate_button page-item active"><a href="" aria-controls="example1" id="1" tabindex="0" class="page-link">1</a></li>
-                    <li class="paginate_button page-item "><a href="#" aria-controls="example1" id="2" tabindex="0" class="page-link">2</a></li>
-                    <li class="paginate_button page-item "><a href="#" aria-controls="example1" id="3" tabindex="0" class="page-link">3</a></li>
-                    <li class="paginate_button page-item "><a href="#" aria-controls="example1" id="4" tabindex="0" class="page-link">4</a></li>
-                    <li class="paginate_button page-item "><a href="#" aria-controls="example1" id="5" tabindex="0" class="page-link">5</a></li>
-                    <li class="paginate_button page-item "><a href="#" aria-controls="example1" id="6" tabindex="0" class="page-link">6</a></li>
-                    <li class="paginate_button page-item next" id="example1_next"><a href="#" aria-controls="example1" id="7" tabindex="0" class="page-link">Next</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
+    
 </div>

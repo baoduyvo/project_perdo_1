@@ -6,6 +6,7 @@ if (isset($_POST['buttonSearch'])) {
     $search = 'name';
     $products = searchByKeyWord($products, $keyword, $search);
 }
+
 ?>
 
 <section class="content-header">
@@ -59,7 +60,7 @@ if (isset($_POST['buttonSearch'])) {
                     <th>Delete</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="body">
                 <?php foreach ($products as $key => $product) { ?>
                     <tr>
                         <td><?= $key + 1; ?></td>
@@ -109,4 +110,47 @@ if (isset($_POST['buttonSearch'])) {
             </tfoot>
         </table>
     </div>
+
+    <?php
+    $records_per_page = 4;
+    $paginate = count($products);
+    ?>
+    <div class="row">
+        <div class="px-4 col-md-7 text-right offset-md-5">
+            <div class="dataTables_paginate paging_simple_numbers">
+                <ul class="pagination justify-content-end example1_paginate">
+                    <li class="paginate_button page-item previous" id="example1_previous"><a href="#" aria-controls="example1" id="0" tabindex="0" class="page-link">Previous</a></li>
+                    <!-- active -->
+                    <?php for ($i = 0; $i < $paginate / $records_per_page; $i++) { ?>
+                        <li class="paginate_button page-item">
+                            <button id="<?= $i + 1 ?>" class="page-link" onclick="pagination(<?= $i + 1 ?>)">
+                                <?= $i + 1 ?>
+                            </button>
+                        </li>
+                    <?php } ?>
+                    <li class="paginate_button page-item next" id="example1_next"><a href="#" aria-controls="example1" id="7" tabindex="0" class="page-link">Next</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </div>
+
+<script>
+    function pagination(i) {
+        $.ajax({
+            type: "POST",
+            url: "../../function/pagination.php",
+            data: {
+                i: i
+            },
+            success: function(response) {
+                updateProductTable(response);
+            }
+        });
+    }
+
+    function updateProductTable(response) {
+        var products = JSON.parse(response).products;
+        // console.log(products)
+    }
+</script>
